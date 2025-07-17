@@ -20,11 +20,3 @@ A Chrome extension that automatically redirects Medium articles to Freedium for 
 ## Usage
 
 Simply navigate to any Medium article and it will automatically redirect to the Freedium version for free reading.
-
-## Development
-
-The extension consists of:
-- `manifest.json` - Extension configuration
-- `content.js` - Content script that handles the redirection
-- `popup.html` - Extension popup interface
-- `icons/` - Extension icons (add your own icon files here)
