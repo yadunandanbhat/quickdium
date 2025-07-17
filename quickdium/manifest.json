@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Quickdium",
+  "version": "1.0",
+  "description": "Automatically redirects Medium articles to Freedium for free reading",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.medium.com/*",
+        "*://medium.com/*",
+        "*://*.towardsdatascience.com/*",
+        "*://*.hackernoon.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Quickdium - Medium to Freedium",
+    "default_icon": {
+      "48": "favicon.ico",
+      "96": "favicon.ico",
+      "192": "favicon.ico"
+    }
+  },
+  "icons": {
+    "48": "favicon.ico",
+    "96": "favicon.ico",
+    "192": "favicon.ico"
+  }
+}
