@@ -20,3 +20,7 @@ A Chrome extension that automatically redirects Medium articles to Freedium for 
 ## Usage
 
 Simply navigate to any Medium article and it will automatically redirect to the Freedium version for free reading.
+
+## Contributing
+
+Please add other paywalled Medium websites you encounter, to help others have an interruption-free reading.
