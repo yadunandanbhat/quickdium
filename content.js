@@ -1,7 +1,7 @@
 // Check if we're on a Medium article and redirect to Freedium
 (function() {
   let lastUrl = window.location.href;
-  
+
   function checkAndRedirect() {
     const currentUrl = window.location.href;
     console.log('Quickdium: Checking URL:', currentUrl);
@@ -58,33 +58,22 @@
     // Method 1: Check URL patterns for known Medium sites
     const knownMediumDomains = [
       'medium.com',
-      'towardsdatascience.com',
-      'hackernoon.com',
       'netflixtechblog.com',
       'itnext.io',
       'codeburst.io',
-      'freecodecamp.org',
       'levelup.gitconnected.com',
-      'better.dev',
-      'betterprogramming.pub',
-      'javascript.plainenglish.io',
-      'python.plainenglish.io',
-      'aws.plainenglish.io',
       'uxplanet.org',
       'uxdesign.cc',
-      'blog.bitsrc.io',
       'blog.prototypr.io',
-      'envatotuts.com',
-      'blog.usejournal.com'
     ];
-    
-    const isMediumByUrl = knownMediumDomains.some(domain => 
-      currentUrl.includes(domain + '/') || 
+
+    const isMediumByUrl = knownMediumDomains.some(domain =>
+      currentUrl.includes(domain + '/') ||
       currentUrl.includes('.' + domain + '/') ||
       url.hostname === domain ||
       url.hostname.endsWith('.' + domain)
     );
-    
+
     console.log('Quickdium: URL hostname:', url.hostname);
     console.log('Quickdium: isMediumByUrl:', isMediumByUrl);
 
@@ -103,31 +92,30 @@
           return true;
         }
       }
-      
+
       // Check for Medium-specific meta tags and elements
       const mediumIndicators = [
         'meta[name="medium-site-verification"]',
-        'meta[property="article:published_time"]',
         'meta[property="medium:collection"]',
         'script[src*="medium.com"]',
         'link[href*="medium.com"]',
         '.medium-zoom-image',
         '[data-medium-element]'
       ];
-      
+
       for (const selector of mediumIndicators) {
         if (document.querySelector(selector)) {
           return true;
         }
       }
-      
+
       return false;
     };
 
     // Check both methods
     const isMediumByMetaResult = isMediumByMeta();
     console.log('Quickdium: isMediumByMeta:', isMediumByMetaResult);
-    
+
     const isMediumArticle = isMediumByUrl || isMediumByMetaResult;
     console.log('Quickdium: isMediumArticle:', isMediumArticle);
 
@@ -142,10 +130,10 @@
       console.log('Quickdium: Not a Medium article, no redirect needed');
     }
   }
-  
+
   // Initial check
   checkAndRedirect();
-  
+
   // Listen for URL changes in SPAs
   function detectUrlChange() {
     if (lastUrl !== window.location.href) {
@@ -154,32 +142,32 @@
       setTimeout(checkAndRedirect, 100); // Small delay to ensure DOM is updated
     }
   }
-  
+
   // Method 1: Override history methods
   const originalPushState = history.pushState;
   const originalReplaceState = history.replaceState;
-  
+
   history.pushState = function() {
     originalPushState.apply(history, arguments);
     setTimeout(detectUrlChange, 0);
   };
-  
+
   history.replaceState = function() {
     originalReplaceState.apply(history, arguments);
     setTimeout(detectUrlChange, 0);
   };
-  
+
   // Method 2: Listen for popstate (back/forward navigation)
   window.addEventListener('popstate', detectUrlChange);
-  
+
   // Method 3: Fallback - periodic check for URL changes
   setInterval(detectUrlChange, 1000);
-  
+
   // Method 4: Watch for DOM changes that might indicate navigation
   const observer = new MutationObserver(function() {
     detectUrlChange();
   });
-  
+
   observer.observe(document, {
     childList: true,
     subtree: true
